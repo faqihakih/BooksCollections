@@ -12,5 +12,9 @@ app.use(bodyParser.urlencoded({extended: false,}));
 
 app.use(bodyParser.json());
 
-
+// endpoint restfull books
 app.get('/', bookcontroller.getAllData);
+app.get('/book/:id', bookcontroller.getDataByID);
+app.post('/book', bookcontroller.postBook);
+app.put('/book/:id', bookcontroller.updateBook);
+app.delete('/book/:id', bookcontroller.deleteBook);
