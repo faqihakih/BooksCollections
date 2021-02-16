@@ -16,7 +16,11 @@ module.exports = {
                         })
                     }
                 } else {
-                    reject(err)
+                    reject({
+                        message: 'failed',
+                        status: false,
+                        Error : "Error while get data", err
+                    })
                 }
             })
         })
@@ -36,7 +40,11 @@ module.exports = {
                         })
                     }
                 } else {
-                    reject(err)
+                    reject({
+                        message: 'failed',
+                        status: false,
+                        Error : "Error while get data ", err
+                    })
                 }
             })
         })
@@ -52,7 +60,11 @@ module.exports = {
                         data: newData
                     })
                 } else {
-                    reject(err)
+                    reject({
+                        message: 'failed',
+                        status: false,
+                        Error : "Error while add an new data ", err
+                    })
                 }
             })
         })
@@ -60,19 +72,25 @@ module.exports = {
     updatedata : (id, newData) => {
         return new Promise((resolve, reject) => {
             // const sql = `UPDATE books SET judul = '${newData.judul}', penerbit = '${newData.penerbit}', penulis = '${newData.penulis}', id_kategori = '${newData.id_kategori}', tahun = '${newData.tahun}', cover = '${newData.cover}' WHERE id = '${id.id}'`
-            const sql = 'UPDATE books SET ?'
+            const sql = 'UPDATE books SET ? WHERE id = ?'
             conn.query(sql,[newData, id.id], (err, res) => {
                 if (!err) {
-                    resolve({
-                        message: 'sucess',
-                        status: true,
-                        data: {...id,...newData}
-                    })
+                    if (res.affectedRows === 0) {
+                        resolve({
+                            message: "data not found"
+                        })
+                    } else {
+                        resolve({
+                            message : "success",
+                            status : true,
+                            data : {...id, ...newData}
+                        })
+                    }
                 } else {
                     reject({
                         message: 'failed',
                         status: false,
-                        Error : "Error while updating data", err
+                        Error : "Error while updating data ", err
                     })
                 }
             })
@@ -83,16 +101,22 @@ module.exports = {
             const sql = "DELETE FROM books WHERE id = ?"
             conn.query(sql, id.id, (err, res) => {
                 if (!err) {
-                    resolve({
-                        message : 'success',
-                        status: true,
-                        data: res
-                    })
+                    if (res.affectedRows === 0) {
+                        resolve({
+                            message: "data not found"
+                        })
+                    } else {
+                        resolve({
+                            message : "success",
+                            status : true,
+                            data : res
+                        })
+                    }
                 } else {
                     reject({
                         message: 'failed',
                         status: false,
-                        Error : "Error while deleting data", err
+                        Error : "Error while deleting data ", err
                     })
                 }
             })
