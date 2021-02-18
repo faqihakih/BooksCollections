@@ -108,8 +108,7 @@ module.exports = {
                     } else {
                         resolve({
                             message : "success",
-                            status : true,
-                            data : res
+                            status : true
                         })
                     }
                 } else {
