@@ -17,20 +17,20 @@ app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false, }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send({
-        "message": "Welcome to API Book Collection",
-        "status": 200,
-        "createdBy": "Faqih Zada Ikhsan",
-        "fullDocumentation": "https://documenter.getpostman.com/view/10969923/TWDWHwsu#bf2d0dbc-2faa-488f-881b-248888c99699"
-    })
-})
-app.use(function (req, res) {
-    res.status(404).json({
-        msg: "Data Not Found",
-        status: 404,
-    });
-});
+// app.get('/', (req, res) => {
+//     res.send({
+//         "message": "Welcome to API Book Collection",
+//         "status": 200,
+//         "createdBy": "Faqih Zada Ikhsan",
+//         "fullDocumentation": "https://documenter.getpostman.com/view/10969923/TWDWHwsu#bf2d0dbc-2faa-488f-881b-248888c99699"
+//     })
+// })
+// app.use(function (req, res) {
+//     res.status(404).json({
+//         msg: "Data Not Found",
+//         status: 404,
+//     });
+// });
 
 // endpoint restfull books
 app.get('/book', bookcontroller.getAllData);
@@ -47,7 +47,7 @@ app.put('/category/:id', categoricontroller.updateCategory);
 app.delete('/category/:id', categoricontroller.deleteCategory);
 
 // endpoint views book
-app.get('/bookView', (req, res) => {
+app.get('/', (req, res) => {
     let sql = "SELECT books.id, judul, penerbit, penulis, kategori, tahun, cover FROM books JOIN kategori ON books.id_kategori = kategori.id";
     conn.query(sql, (err, results) => {
         if (!err) {
@@ -78,7 +78,7 @@ app.post('/saveBook', (req, res) => {
     let sql = "INSERT INTO books SET ?";
     conn.query(sql, data, (err, results) => {
         if (!err){
-            res.redirect('/bookView');
+            res.redirect('/');
         }else{
             throw err;
         }
@@ -106,7 +106,7 @@ app.post('/updateBook', (req, res) => {
     conn.query(sql, data, (err, results) => {
         // console.log(results);
         if (!err){
-            res.redirect('/bookView');
+            res.redirect('/');
         }else{
             throw err;
         }
@@ -118,7 +118,7 @@ app.get('/deleteBook/:id', (req, res) => {
     let sql = "DELETE FROM books WHERE id=" + id + "";
     conn.query(sql, (err, results) => {
         if (!err){
-            res.redirect('/bookView');
+            res.redirect('/');
         }else{
             throw err;
         }
