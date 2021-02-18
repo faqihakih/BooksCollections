@@ -176,7 +176,6 @@ app.post('/UpdateCategory', (req, res) => {
     let data = req.body;
     let sql = `UPDATE kategori SET ? WHERE id = ${data.id}`;
     conn.query(sql, data, (err, results) => {
-        // console.log(results);
         if (!err){
             res.redirect('/categoryView');
         }else{
