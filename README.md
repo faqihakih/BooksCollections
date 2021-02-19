@@ -1,6 +1,6 @@
 # Book Collection RESTful API
 
-----------------
+
 
 ## About The Project
 
